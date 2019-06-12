@@ -12,12 +12,12 @@ Con esto podríamos tener un tablero preliminar (sólo con los 3 primeros lugare
 
 ```swift
 let scoreIni = [(name: "vale1", position: 1, points: 85),
-                      (name: "vale2", position: 2, points: 85),
-                      (name: "vale3", position: 3, points: 85),
-                      (name: "vale4", position: 4, points: 80),
-                      (name: "vale5", position: 5, points: 80),
-                      (name: "vale6", position: 6, points: 80),
-                      (name: "vale7", position: 7, points: 80)]
+                (name: "vale2", position: 2, points: 85),
+                (name: "vale3", position: 3, points: 85),
+                (name: "vale4", position: 4, points: 80),
+                (name: "vale5", position: 5, points: 80),
+                (name: "vale6", position: 6, points: 80),
+                (name: "vale7", position: 7, points: 80)]
                       
 ordenedFirstThirdPlaces(scores: scoreIni)                      
 ```
