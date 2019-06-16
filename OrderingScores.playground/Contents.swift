@@ -2,22 +2,40 @@ import UIKit
 
 var globalScores = [(name: String, position: Int, points: Int)]()
 
-func ordenedFirstThirdPlaces(scores: [(String, Int, Int)]) {
+func ordenedFirstThirdPlaces(scores: [(String, Int, Int)], empate: Bool) {
     var scores: [(name: String, position: Int, points: Int)] = scores
     
-    let minPosition = scores.sorted(by: {$0.position < $1.position})[0].position
+    var minPosition = 0
+    var count = 1
     
-    for (pos, _) in scores.enumerated() {
-        scores[pos].position = pos+minPosition
-    }
-    
-    for (num, _) in scores.enumerated() {
-        for item2 in scores {
-            if scores[num].points == item2.points {
-                scores[num].position = item2.position
-                break
+    while minPosition < scores.count-1 {
+        for num in minPosition+1 ... scores.count-1 {
+            
+            let initialPosition = scores[num].position
+            
+            if scores[minPosition].position == scores[num].position {
+                if scores[minPosition].points != scores[num].points {
+                    if !empate {
+                        scores[num].position = scores[num].position+minPosition
+                    } else {
+                        scores[num].position = scores[num].position+count
+                    }
+                }
+            } else {
+                if scores[minPosition].points == scores[num].points {
+                    if !empate {
+                        scores[num].position = scores[minPosition].position
+                    }
+                }
+            }
+            
+            if empate {
+                if initialPosition == scores[num].position {
+                    count = count+1
+                }
             }
         }
+        minPosition = minPosition+1
     }
     
     scores.sort(by: { $0.points > $1.points })
@@ -49,43 +67,48 @@ func acomodatePlacesWithoutTie(scores: [(name: String, position: Int, points: In
     print("\nPlaces to break: \(nScores)")
 }
 
-func acomodatePlacesWithTie(scores: [(name: String, position: Int, points: Int)]) {
-    var nScores = [(name: String, position: Int, points: Int)]()
-    var firstScores = [(name: String, position: Int, points: Int)]()
-    var secondScores = [(name: String, position: Int, points: Int)]()
-    var thirdScores = [(name: String, position: Int, points: Int)]()
-    
-    for item in scores {
-        switch item.position {
-        case 1:
-            firstScores.append(item)
-        case 2:
-            secondScores.append(item)
-        case 3:
-            thirdScores.append(item)
-        default:
-            print("default")
-        }
-    }
-    
-    firstScores.sort(by: { $0.points > $1.points })
-    secondScores.sort(by: { $0.points > $1.points })
-    thirdScores.sort(by: { $0.points > $1.points })
-    
-    for (num, _) in firstScores.enumerated() {
-        firstScores[num].position = firstScores[num].position+num
-        nScores.append(firstScores[num])
-    }
-    
-    for (num, _) in secondScores.enumerated() {
-        secondScores[num].position = secondScores[num].position+num
-        nScores.append(secondScores[num])
-    }
-    
-    for (num, _) in thirdScores.enumerated() {
-        thirdScores[num].position = thirdScores[num].position+num
-        nScores.append(thirdScores[num])
-    }
-    
-    ordenedFirstThirdPlaces(scores: nScores)
-}
+let scoreIni = [(name: "vale1", position: 1, points: 8),
+                (name: "vale2", position: 2, points: 8),
+                (name: "vale3", position: 3, points: 5),
+                (name: "vale4", position: 4, points: 5),
+                (name: "vale5", position: 5, points: 5),
+                (name: "vale6", position: 6, points: 4),
+                (name: "vale7", position: 7, points: 4)]
+
+//ordenedFirstThirdPlaces(scores: scoreIni, empate: false)
+
+let tie1 =  [(name: "vale1", position: 1, points: 8),
+             (name: "vale2", position: 1, points: 8),
+             (name: "vale3", position: 3, points: 5),
+             (name: "vale4", position: 3, points: 5),
+             (name: "vale5", position: 3, points: 5),
+             (name: "vale6", position: 3, points: 5)]
+
+//ordenedFirstThirdPlaces(scores: tie1, empate: true)
+
+let tie2 = [(name: "vale1", position: 1, points: 5),
+            (name: "vale2", position: 1, points: 5),
+            (name: "vale3", position: 3, points: 5),
+            (name: "vale4", position: 3, points: 5),
+            (name: "vale5", position: 3, points: 5),
+            (name: "vale6", position: 3, points: 5)]
+
+//ordenedFirstThirdPlaces(scores: tie2, empate: true)
+
+let tie3 = [(name: "vale1", position: 1, points: 5),
+            (name: "vale2", position: 1, points: 5),
+            (name: "vale3", position: 3, points: 7),
+            (name: "vale4", position: 3, points: 7),
+            (name: "vale5", position: 3, points: 7),
+            (name: "vale6", position: 3, points: 7)]
+
+//ordenedFirstThirdPlaces(scores: tie3, empate: true)
+
+let tie4 = [(name: "vale1", position: 1, points: 6),
+           (name: "vale2", position: 1, points: 5),
+           (name: "vale3", position: 3, points: 8),
+           (name: "vale4", position: 3, points: 7),
+           (name: "vale5", position: 3, points: 7),
+           (name: "vale6", position: 3, points: 7)]
+
+//ordenedFirstThirdPlaces(scores: tie4, empate: true)
